@@ -1,29 +1,35 @@
-// Opprett kartet
-var map = L.map('map').setView([20, 0], 2); // Setter utgangspunktet for kartet
+// Initialiser kartet
+var map = L.map('map').setView([20, 0], 2); // Sentrert på midten av verden
 
-// Legg til OpenStreetMap-kartlag
+// Legg til et kartlag
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
 }).addTo(map);
 
-// Legg til klikk-hendelse på kartet
-map.on('click', function(e) {
-    var latlng = e.latlng; // Få koordinater til klikket
-    var popup = L.popup()
-        .setLatLng(latlng) // Sett posisjonen til popup
-        .setContent("<b>Klikk for å se trender!</b><br>Land: " + latlng.toString())
-        .openOn(map);
-        
-    // Hent trender basert på klikket land
-    fetchTrends(latlng);
-});
+// Legg til et GeoJSON lag (her kan du bruke et passende GeoJSON av verdens land)
+fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
+    .then(response => response.json())
+    .then(data => {
+        L.geoJson(data, {
+            onEachFeature: function (feature, layer) {
+                layer.on('click', function () {
+                    var countryName = feature.properties.ADMIN;
+                    // Her kan du hente trenddata for det valgte landet
+                    fetchTrendData(countryName);
+                });
+            }
+        }).addTo(map);
+    });
 
-// Funksjon for å hente trender
-function fetchTrends(latlng) {
-    const exampleCountry = 'Norway'; // Her kan du bruke latlng for å bestemme landet
-    fetch(`/trends/google`) // Endre til den plattformen du vil hente data for
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('results').innerText = `Trender for ${exampleCountry}: ${data.message}`;
-        });
+// Funksjon for å hente trenddata
+function fetchTrendData(country) {
+    // Her kan du implementere API-kall eller logikk for å hente data
+    // For eksempel, simulere en API respons
+    var trendData = {
+        "Norge": "Kaffe",
+        "Sverige": "Te",
+        "Danmark": "Øl"
+    };
+    var infoDiv = document.getElementById('info');
+    infoDiv.innerHTML = `Søle-trend i ${country}: ${trendData[country] || "Ingen data tilgjengelig"}`;
 }

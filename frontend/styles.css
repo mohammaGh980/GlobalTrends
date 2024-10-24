@@ -1,48 +1,30 @@
 body {
-    font-family: Arial, sans-serif; /* Setter font for hele siden */
-    margin: 0; /* Fjerner margin fra body */
-    padding: 0; /* Fjerner padding fra body */
-    display: flex; /* Bruker fleksbox for layout */
-    flex-direction: column; /* Retning for flexbox-elementer */
-    align-items: center; /* Sentrerer elementene horisontalt */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 header {
-    background-color: rgb(81, 143, 234); /* Grønn bakgrunn for header */
-    color: white; /* Hvit tekstfarge */
-    text-align: center; /* Sentrerer teksten */
-    padding: 20px; /* Legger til padding rundt teksten */
-    width: 97.4% ;
-    
-}
-
-
-.tContainer {
-    border: 1px red;
-    width: 40%;
-    height: 40%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
 }
 
 #map {
-    height: 400px; /* Setter høyden på kartet */
-    width: 80%; /* Setter bredden på kartet til 80% av skjermen */
-    max-width: 800px; /* Setter maksimal bredde på kartet */
-    margin: 20px 0px 20px 0px; /* Legger til margin over og under kartet */
-    border: 2px solid rgb(81, 143, 234); /* Grønn ramme rundt kartet */
-    border-radius: 10px; /* Rundede kanter */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Legger til skygge for dybde */
+    height: 600px;
+    width: 80%;
+    margin: 20px auto;
 }
 
 #results {
-    width: 80%; /* Setter bredden på resultatområdet */
-    max-width: 800px; /* Setter maksimal bredde på resultatområdet */
-    margin: 20px 0; /* Legger til margin over og under resultatområdet */
-    text-align: center; /* Sentrerer teksten */
+    margin: 20px;
+    width: 80%;
+    max-width: 800px;
+    text-align: left;
 }
-
-.popup {
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+                       
