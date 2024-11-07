@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interaktivt Kart</title>
+    <title>Interaktivt Verdenskart</title>
+    <link rel="stylesheet" href="styles.css">   
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <style>
-        #map {
-            height: 600px;
-        }
-    </style>
 </head>
 <body>
-    <h1>Kart over Søle-trender</h1>
+
+    <h1>Gogel Trends</h1>
+    <p>Trykk på et land for å se en melding.</p>
+
+    <!-- Kartbeholder -->
     <div id="map"></div>
-    <div id="info"></div>
-    
+    <div id="message-box">Klikk på et land for å se informasjon</div>
+
+    <!-- NORGE -->
+
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>

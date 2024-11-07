@@ -1,29 +1,18 @@
-from flask import Flask, jsonify, request
+# app.py
+from flask import Flask, request, jsonify
 from pytrends.request import TrendReq
 
 app = Flask(__name__)
+pytrends = TrendReq(hl='no', tz=360)
 
-# Funksjon for å hente Google Trends basert på landkode
-def get_google_trends(country_code):
-    # Initialiser Pytrends
-    pytrends = TrendReq(hl='no', tz=360)
-    
-    # Setter opp forespørselen til Google Trends
-    pytrends.build_payload(kw_list=[''], geo=country_code, timeframe='today 12-m')
+@app.route('/trends')
+def trends():
+    country = request.args.get('country')
+    geo = 'NO' if country == 'NO' else country
+    pytrends.build_payload(kw_list=[''], geo=geo)
+    trending_searches = pytrends.trending_searches(pn=country)
+    trends = trending_searches[0].tolist()  # Henter første kolonne med trend-navn
+    return jsonify(trends)
 
-    # Henter data for de mest populære søkene i det spesifiserte landet
-    trending_searches = pytrends.trending_searches(pn=country_code)
-    
-    return trending_searches
-
-@app.route('/trends/<country_code>', methods=['GET'])
-def trends(country_code):
-    try:
-        # Hent søketrender for landet
-        trends_data = get_google_trends(country_code)
-        return jsonify(trends_data.tolist())  # Returner data som JSON
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500  # Returner feilmelding ved feil
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

@@ -1,35 +1,88 @@
-// Initialiser kartet
-var map = L.map('map').setView([20, 0], 2); // Sentrert på midten av verden
+// Initialiser kartet og sett senter og zoom-nivå
+const map = L.map('map').setView([20, 0], 2); // Sentrer på verden
 
-// Legg til et kartlag
+// Legg til OpenStreetMap-fliser
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
+    maxZoom: 18,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Legg til et GeoJSON lag (her kan du bruke et passende GeoJSON av verdens land)
-fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
-    .then(response => response.json())
-    .then(data => {
-        L.geoJson(data, {
-            onEachFeature: function (feature, layer) {
-                layer.on('click', function () {
-                    var countryName = feature.properties.ADMIN;
-                    // Her kan du hente trenddata for det valgte landet
-                    fetchTrendData(countryName);
-                });
-            }
-        }).addTo(map);
+// Funksjon for å vise melding
+function showMessage(country, trends) {
+    const messageBox = document.getElementById('message-box');
+    messageBox.innerHTML = `<h2>Trender i ${country}</h2>`;
+    trends.forEach(trend => {
+        messageBox.innerHTML += `<p>${trend}</p>`;
     });
-
-// Funksjon for å hente trenddata
-function fetchTrendData(country) {
-    // Her kan du implementere API-kall eller logikk for å hente data
-    // For eksempel, simulere en API respons
-    var trendData = {
-        "Norge": "Kaffe",
-        "Sverige": "Te",
-        "Danmark": "Øl"
-    };
-    var infoDiv = document.getElementById('info');
-    infoDiv.innerHTML = `Søle-trend i ${country}: ${trendData[country] || "Ingen data tilgjengelig"}`;
+    messageBox.style.display = 'block';
 }
+
+// Simulerer trender for ulike land
+const countryTrends = {
+    "Norge": [
+        "Vinter-OL 2024",
+        "Krimkrisen",
+        "Oslo Maraton"
+    ],
+    "Sverige": [
+        "Abba comeback",
+        "Svenske mattrender",
+        "Nye iPhone lansering"
+    ],
+    "USA": [
+        "Super Bowl 2024",
+        "E-sport som sport",
+        "Tesla Model Z"
+    ],
+    "Frankrike": [
+        "Paris Fashion Week",
+        "Tour de France 2024",
+        "Le Louvre reåpning"
+    ],
+    "Brasil": [
+        "Samba-festivaler",
+        "Olympiske leker 2024",
+        "Brasil vs Argentina fotballkamp"
+    ],
+    "Japan": [
+        "Tokyo Anime Expo",
+        "Japansk mat-trend",
+        "Ny teknologi i Tokyo"
+    ],
+    "Australia": [
+        "Australia Open Tennis",
+        "Ny Marvel film",
+        "Største dyrehage festival"
+    ],
+    "India": [
+        "Bollywood Filmer",
+        "Indiske festivaler",
+        "Indiske e-sport lag"
+    ],
+    "Sør-Afrika": [
+        "Verdens beste safariturer",
+        "Kunstfestival i Johannesburg",
+        "Cricket VM 2024"
+    ]
+};
+
+// Definer en liste over land med navn og koordinater
+const countries = [
+    { name: "Norge", coords: [60.472, 8.4689] },
+    { name: "Sverige", coords: [60.1282, 18.6435] },
+    { name: "USA", coords: [37.0902, -95.7129] },
+    { name: "Frankrike", coords: [46.6034, 1.8883] },
+    { name: "Brasil", coords: [-14.2350, -51.9253] },
+    { name: "Japan", coords: [36.2048, 138.2529] },
+    { name: "Australia", coords: [-25.2744, 133.7751] },
+    { name: "India", coords: [20.5937, 78.9629] },
+    { name: "Sør-Afrika", coords: [-30.5595, 22.9375] }
+];
+
+// Legg til markører på kartet for hvert land i listen
+countries.forEach(country => {
+    L.marker(country.coords)
+        .addTo(map)
+        .bindPopup(`Klikk her for ${country.name}`)
+        .on('click', () => showMessage(country.name, countryTrends[country.name]));
+});
