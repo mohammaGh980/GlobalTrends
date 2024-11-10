@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interaktivt Kart</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <style>
-        #map {
-            height: 600px;
-        }
-    </style>
+    <title>Trending Søk</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Kart over Søle-trender</h1>
-    <div id="map"></div>
-    <div id="info"></div>
-    
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <h1>Velg et land for å se de siste trendene</h1>
+    <div id="buttons">
+        <button onclick="getTrends('NO')">Norge</button>
+        <button onclick="getTrends('US')">USA</button>
+        <button onclick="getTrends('SE')">Sverige</button>
+        <!-- Legg til flere knapper for andre land om nødvendig -->
+    </div>
+
+    <div id="trends">
+        <!-- Her vil trendene vises -->
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
